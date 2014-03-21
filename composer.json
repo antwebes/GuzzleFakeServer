@@ -1,0 +1,24 @@
+{
+    "name" : "antwebes/guzzle-fake-server",
+    "description" : "A pluggin for Guzzle client to simulate server responses",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "José Ramón Fernandez Leis",
+        "email" : "jdeveloper.inxenio@gmail.com",
+        "homepage" : "https://github.com/antwebes",
+        "role" : "Developer"
+    }],
+    "keywords" : ["guzzle","bundle","pluggin","test","mock"],
+    "homepage" : "https://github.com/antwebes/GuzzleFakeServer",
+    "license" : "MIT",
+    "require" : {
+        "guzzle/guzzle" : "~3.7"
+    },
+    "require-dev": {
+        "raulfraile/ladybug": "~1.0"
+    },
+    "autoload": {
+        "psr-0": { "Ant\\Bundle\\GuzzleFakeServer": "" }
+    },
+    "target-dir": "Ant/Bundle/GuzzleFakeServer"
+}
