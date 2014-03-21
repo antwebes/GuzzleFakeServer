@@ -1,0 +1,18 @@
+[
+    {
+        "url" : "/fake",
+        "method" : "GET",
+        "response" : {
+            "status" : 200,
+            "resource" : "fixtures/fake_get.json"
+        }
+    },
+    {
+        "url" : "/fake2",
+        "method" : "POST",
+        "response" : {
+            "status" : 201,
+            "resource" : "fixtures/fake_post.json"
+        }
+    }
+]
