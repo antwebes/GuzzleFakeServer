@@ -60,10 +60,15 @@ class FakeServer implements EventSubscriberInterface
     public function onRequestBeforeSend(Event $event)
     {
         $request = $event['request'];
-
         $resourceMap = $this->findResourMapForRequest($request);
-        $request->setResponse($this->buildResponse($resourceMap['response']));
-        $this->enqueReceivedRequest($request);
+
+        try{
+            $request->setResponse($this->buildResponse($resourceMap['response']));
+        }catch(\Exception $e){
+            throw $e;
+        }finally{
+            $this->enqueReceivedRequest($request);
+        }
     }
 
     /**
