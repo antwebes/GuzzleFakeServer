@@ -14,6 +14,9 @@ class FakeServer implements EventSubscriberInterface
     private $resourceLoader;
     private $receivedRequests = array();
     private $receivedRequestsHashes = array();
+    private $defaultStatusCode;
+    private $defaultResponseBody;
+    private $defaultResponseHeaders;
 
     /**
      * Constructor
@@ -21,10 +24,17 @@ class FakeServer implements EventSubscriberInterface
      * @param $configuration Objeto que guarda la configuración de los mapeos
      * @param $resourceLoader Objeto que carga los recursos
      */
-    public function __construct(ConfigurationInterface $configuration, ResourceLoaderInterface $resourceLoader)
+    public function __construct(ConfigurationInterface $configuration,
+        ResourceLoaderInterface $resourceLoader, 
+        $defaultStatusCode = 200, 
+        $defaultResponseBody = '', 
+        array $defaultResponseHeaders = array())
     {
         $this->configuration = $configuration;
         $this->resourceLoader = $resourceLoader;
+        $this->defaultStatusCode = $defaultStatusCode;
+        $this->defaultResponseBody = $defaultResponseBody;
+        $this->defaultResponseHeaders = $defaultResponseHeaders;
     }
 
     /**
@@ -90,9 +100,18 @@ class FakeServer implements EventSubscriberInterface
             }
         }
 
-        if($bestMatchingResource == null){
-            throw new \Exception("No resource for ".$request->getUrl()." with ".$request->getMethod()." method");
+        if($bestMatchingResource == null){//ldd($request->getUrl());
+            return array(
+                'url' => $request->getUrl(),
+                'method' => $request->getMethod(),
+                'response' => array(
+                    'status' => $this->defaultStatusCode,
+                    'body' => $this->defaultResponseBody
+                    )
+                );
         }
+
+        $bestMatchingResource['response']['body'] = $this->resourceLoader->loadResource($bestMatchingResource['response']['resource']);
 
         return $bestMatchingResource;
     }
@@ -152,8 +171,11 @@ class FakeServer implements EventSubscriberInterface
     private function buildResponse($responseMap)
     {
         $response = new \Guzzle\Http\Message\Response($responseMap['status']);
-        $response->setHeader('Content-Type', 'application/json');
-        $response->setBody($this->resourceLoader->loadResource($responseMap['resource']));
+        foreach ($this->defaultResponseHeaders as $header => $value) {
+            $response->setHeader($header, $value);
+        }
+
+        $response->setBody($responseMap['body']);
 
         return $response;
     }

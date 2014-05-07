@@ -83,7 +83,7 @@ class FakeServerTest extends \PHPUnit_Framework_TestCase
             ->method('loadResource')
             ->will($this->returnCallback($loadResource));
 
-        $this->fakeServer = new FakeServer($this->configurationInterface, $this->resourceLoaderInterface);
+        $this->fakeServer = new FakeServer($this->configurationInterface, $this->resourceLoaderInterface, 200, '"default content"', array('Content-Type' => 'application/json'));
     }
 
     public function testInitialyNoRequestHaveBeenSended()
@@ -185,5 +185,16 @@ class FakeServerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(1, $this->fakeServer->getReceivedRequests());
         $this->assertEquals($request1, $this->fakeServer->getReceivedRequests()[0]);
+    }
+
+    public function testDefaultResponseIfNoResourceFound()
+    {
+        $client = new Client();
+        
+        $client->addSubscriber($this->fakeServer);
+        $request1 = $client->get('http://localhost/thisistheultimatenonexistingurl');
+        $response1 = $request1->send();
+        $this->assertEquals($request1, $this->fakeServer->getReceivedRequests()[0]);
+        $this->assertEquals('"default content"', $response1->getBody()->read(100));
     }
 }
