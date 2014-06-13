@@ -67,6 +67,13 @@ class ArrayConfiguration implements ConfigurationInterface
         $this->addResource('PATCH', $url, $resource, $params, $status);
     }
 
+
+
+    public function addDeleteResource($url, $resource, $status = 200, $params = array())
+    {
+        $this->addResource('DELETE', $url, $resource, $params, $status);
+    }
+
     private function addResource($method, $url, $resource, $params = array(), $status = 200)
     {
         $data = array(
