@@ -12,8 +12,8 @@ Design
 =================
 
 
-[![Class diagram](https://raw.githubusercontent.com/antwebes/GuzzleFakeServer/development/doc/img/guzzle_fake_server_diagram.png)]
-[![Sequence diagram](https://raw.githubusercontent.com/antwebes/GuzzleFakeServer/development/doc/img/guzzle_fake_server_sequence.png)]
+![Class diagram](https://raw.githubusercontent.com/antwebes/GuzzleFakeServer/development/doc/img/guzzle_fake_server_diagram.png)
+![Sequence diagram](https://raw.githubusercontent.com/antwebes/GuzzleFakeServer/development/doc/img/guzzle_fake_server_sequence.png)
 
 As you can see in the diagram, when you make a call to guzzle, the FakeServer listens to an event, searches for a resource and loads it from disk to simulate the response.
 
