@@ -14,8 +14,8 @@ class JsonConfiguration implements ConfigurationInterface
     /**
      * Constructor
      *
-     * @param $host el prefijo que se le va a poner a todas las rutas especificadas en el archivo de configuración
-     * @param configFile ruta al archivo de configuración JSON
+     * @param $host the host prefix to put in all routes
+     * @param configFile path to the JSON configuration file
      */
     public function __construct($host, $configFile)
     {
@@ -24,7 +24,7 @@ class JsonConfiguration implements ConfigurationInterface
     }
 
     /**
-     * retorna un array con el mappeo de urls compo por ejemplo:
+     * returns an array with the url mappings in the form like:
      * 
      * array(
      *      'url' => 'http://localhost/fake',

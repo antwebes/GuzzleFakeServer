@@ -6,7 +6,7 @@ use Guzzle\Common\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Simula un server para el guzzle client
+ * Simulates a server for the guzzle cliente
  */
 class FakeServer implements EventSubscriberInterface
 {
@@ -21,8 +21,10 @@ class FakeServer implements EventSubscriberInterface
     /**
      * Constructor
      *
-     * @param $configuration Objeto que guarda la configuración de los mapeos
-     * @param $resourceLoader Objeto que carga los recursos
+     * @param $configuration Object that stores the configuration of the mappings
+     * @param $resourceLoader Object that loads the de resources
+     * @param $defaultStatusCode the default status code to return for found resources
+     * @param $defaultResponseHeaders the default header to put in the response
      */
     public function __construct(ConfigurationInterface $configuration,
         ResourceLoaderInterface $resourceLoader, 
@@ -38,7 +40,9 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Devuelve los eventos a los que se va a subscribir el objeto
+     * Returns the events the object will subscribe to
+     *
+     * @return array
      */
     public static function getSubscribedEvents()
     {
@@ -46,7 +50,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Devuelve las peticiones realizadas por el guzzle client que tienen mapeo en la configuración
+     * Returns all requests made to guzzle that have a mapping
      *
      * @return array
      */
@@ -56,7 +60,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Elimina el registro de las peticiones recibidas
+     * Clears all received requests
      */
     public function clearReceivedRequests()
     {
@@ -65,7 +69,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Metodo que se subscribe al evento request.before_send del guzzle client. Si la URL, metodo y parametros corresponde con algún mapeo de la configuración se establece la respuesta al request
+     * Method that subscribes to the request.before_send event of the guzzle client. If a URL, method and parametes matches a given mappinga of the configuration a response is setted to the request
      */
     public function onRequestBeforeSend(Event $event)
     {
@@ -82,7 +86,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Busca en los mappings el mapping que mejor se ajusta a la request. Si no encuenta ninguno, lanza una excepción
+     * Searches through all mappings for the mapping that best matches the request. If no one is found, an exception is thrown
      *
      * @param $request
      */
@@ -92,7 +96,7 @@ class FakeServer implements EventSubscriberInterface
 
         foreach ($this->configuration->getResourceMappings() as $resource){
             if($request->getUrl() == $resource['url'] && $request->getMethod() == $resource['method']){
-                //si coincide la url y el metodo, y la configuración establece que se requieren una serie de parametos, miramos que todos esten presentes
+                //now tha url and method matches, we verify that all requested parameters are sent
                 if(!isset($resource['params']) || 
                     $this->requestContainsAllPostFields($request, $resource['params'])){
                     $bestMatchingResource = $resource;
@@ -117,7 +121,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Comprueba que una request tenga todos los parametros (enviados por POST, PUT o PATCH) que se requieren y tengan los mismos valores
+     * Verifies that a request has all parameters that are required and have the same value
      *
      * @return boolean
      */
@@ -143,7 +147,7 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Extrae los campos enviados por POST, PUT o PATCH
+     * Extracts all fields sent by POST, PUT or PATCH
      *
      * @return array
      */
@@ -164,9 +168,18 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Crea un response a partir de la configuración estableciendo el body y status code
+     * Creates a respons from the given configuration establishing the boyd and status code
      *
-     * @param $responseMap array con body y status code
+     * Example:
+     *
+     * $this->buildResponse(array(
+     *     'status' => 200,
+     *     'body' => 'a body'
+     * ))
+     *
+     * @param $responseMap array with body and status code
+     *
+     * @return Guzzle\Http\Message\Response
      */
     private function buildResponse($responseMap)
     {
@@ -181,9 +194,9 @@ class FakeServer implements EventSubscriberInterface
     }
 
     /**
-     * Encola un request a las request recibidas si aun no fue encolada
+     * Enqueuess a request to all received requests
      *
-     * @param $request Request a añadir
+     * @param $request Request to enqueue
      */
     private function enqueReceivedRequest($request)
     {

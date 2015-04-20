@@ -3,7 +3,7 @@
 namespace Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer;
 
 /**
- * Clase para cargar recursos, es decir, el contenido del body de la respuesta
+ * Class that loads a resource, the body content of a response
  */
 class FileResourceLoader implements ResourceLoaderInterface
 {
@@ -13,7 +13,7 @@ class FileResourceLoader implements ResourceLoaderInterface
     /**
      * Constructor
      *
-     * @param $basePath Directorio base en el cual buscar 
+     * @param $basePath Base directory where to search for the resource
      *
      */
     public function __construct($basePath)
@@ -22,9 +22,9 @@ class FileResourceLoader implements ResourceLoaderInterface
     }
 
     /**
-     * Carga un recurso
+     * Loads a resource
      *
-     * @param $resource ruta al recurso a cargar
+     * @param $resource path of the resource to load
      *
      * @return string
      */

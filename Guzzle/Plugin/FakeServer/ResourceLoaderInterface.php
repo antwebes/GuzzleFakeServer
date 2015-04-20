@@ -8,9 +8,9 @@ namespace Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer;
 interface ResourceLoaderInterface
 {
     /**
-     * Carga un recurso
+     * Loads a resource
      *
-     * @param $resource ruta al recurso a cargar
+     * @param $resource path of the resource to load
      *
      * @return string
      */

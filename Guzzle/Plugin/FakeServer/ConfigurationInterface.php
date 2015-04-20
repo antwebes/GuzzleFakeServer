@@ -8,7 +8,8 @@ namespace Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer;
 interface ConfigurationInterface
 {
     /**
-     * retorna un array con el mappeo de urls compo por ejemplo:
+     *
+     * returns an array with the url mappings in the forme like:
      * 
      * array(
      *      'url' => 'http://localhost/fake',
