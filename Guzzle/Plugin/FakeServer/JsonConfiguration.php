@@ -53,7 +53,7 @@ class JsonConfiguration implements ConfigurationInterface
     {
         $mappings = json_decode(file_get_contents($this->configFile), true);
 
-        //una vez que tengo todos los mappings en el parámetro url le pongo el host por delante
+        //once I have all mappings loaded I prefix to all URLs the host
         foreach($mappings as $key => $mapping){
             $mapping['url'] = $this->host.$mapping['url'];
             $mappings[$key] = $mapping;
