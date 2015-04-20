@@ -14,6 +14,7 @@ class FakeServer implements EventSubscriberInterface
     private $resourceLoader;
     private $receivedRequests = array();
     private $receivedRequestsHashes = array();
+    private $notResolvedRequests = array();
     private $defaultStatusCode;
     private $defaultResponseBody;
     private $defaultResponseHeaders;
@@ -85,6 +86,11 @@ class FakeServer implements EventSubscriberInterface
         }
     }
 
+    public function getNotResolvedRequests()
+    {
+        return $this->notResolvedRequests;
+    }
+
     /**
      * Searches through all mappings for the mapping that best matches the request. If no one is found, an exception is thrown
      *
@@ -105,6 +111,11 @@ class FakeServer implements EventSubscriberInterface
         }
 
         if($bestMatchingResource == null){//ldd($request->getUrl());
+            $this->notResolvedRequests[] = array(
+                'METHOD' => $request->getMethod(),
+                'URL' => $request->getUrl()
+            );
+
             return array(
                 'url' => $request->getUrl(),
                 'method' => $request->getMethod(),
