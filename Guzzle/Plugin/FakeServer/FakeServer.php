@@ -113,7 +113,8 @@ class FakeServer implements EventSubscriberInterface
         if($bestMatchingResource == null){//ldd($request->getUrl());
             $this->notResolvedRequests[] = array(
                 'METHOD' => $request->getMethod(),
-                'URL' => $request->getUrl()
+                'URL' => $request->getUrl(),
+                'PARAMETERS' => $request->getMethod() !== 'GET' ? $this->extractPostFields($request) : array()
             );
 
             return array(
