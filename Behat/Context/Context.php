@@ -11,6 +11,7 @@ use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer\FakeServer;
 use Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer\FileResourceLoader;
 use Ant\Bundle\GuzzleFakeServer\Guzzle\Plugin\FakeServer\ArrayConfiguration;
+use Behat\Mink\Exception\ExpectationException;
 
 
 class Context extends  MinkContext implements KernelAwareInterface
